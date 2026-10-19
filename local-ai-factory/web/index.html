@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1117">
+  <title>Local AI Factory</title>
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Local AI Factory ホーム">
+        <span class="brand-mark"><span></span><span></span><span></span></span>
+        <span>LOCAL<span class="brand-light"> / FACTORY</span></span>
+      </a>
+      <div class="top-meta">
+        <span class="local-pill"><i></i> LOCAL INSTANCE</span>
+        <span class="clock" id="clock">--:--:--</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-line"></span> PERSONAL AI DEVELOPMENT SYSTEM</div>
+          <h1>学び、試し、<span>進化する。</span></h1>
+          <p class="hero-copy">ローカルAIの対話と開発サイクルを、ひとつの場所で。</p>
+        </div>
+        <div class="hero-status">
+          <span class="pulse-dot" id="status-dot"></span>
+          <div><span class="micro-label">FACTORY STATUS</span><strong id="factory-status">接続中</strong></div>
+          <span class="divider"></span>
+          <div><span class="micro-label">ACTIVE MODEL</span><strong class="model-name" id="model-name">--</strong></div>
+        </div>
+      </section>
+
+      <section class="setup-notice" id="setup-notice" role="status" hidden>
+        <span class="setup-notice-icon">!</span>
+        <div>
+          <strong>開発対象を確認してください</strong>
+          <p>指定されたプロジェクトが見つかりません。<code id="setup-config-path">config.json</code> の <code>project_root</code> に存在するプロジェクトを指定し、サーバーを再起動してください。</p>
+        </div>
+      </section>
+
+      <section class="metrics" aria-label="Factory metrics">
+        <article class="metric-card">
+          <span class="metric-icon violet">✳</span>
+          <span class="metric-label">AI MODEL</span>
+          <strong id="model-health">確認中</strong>
+          <small id="model-detail">Ollama ローカル接続</small>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon mint">↗</span>
+          <span class="metric-label">QUALITY PASSED</span>
+          <strong><span id="approved-count">0</span><small class="metric-unit">件</small></strong>
+          <small>品質ゲート通過</small>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon amber">◷</span>
+          <span class="metric-label">SUCCESS RATE</span>
+          <strong id="success-rate">—</strong>
+          <small id="run-count">まだ実験がありません</small>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon blue">⌘</span>
+          <span class="metric-label">SAVED KNOWLEDGE</span>
+          <strong><span id="knowledge-count">0</span><small class="metric-unit">件</small></strong>
+          <small>開発サイクルの参考情報</small>
+        </article>
+      </section>
+
+      <div class="main-grid">
+        <section class="panel chat-panel">
+          <div class="panel-heading">
+            <div class="heading-title">
+              <span class="heading-icon">✳</span>
+              <div><h2>AI と話す</h2><p>会話はローカルの Ollama モデルで処理されます</p></div>
+            </div>
+            <span class="live-label"><i></i> LIVE</span>
+          </div>
+          <div class="chat-thread" id="chat-thread" aria-live="polite">
+            <div class="welcome-card">
+              <div class="welcome-orb">✳</div>
+              <strong>こんにちは。ローカル開発アシスタントです。</strong>
+              <p>コードの相談や調査したいことを聞いてください。<br>必要ならWebを検索して、出典と一緒に回答します。</p>
+              <div class="suggestions">
+                <button type="button" data-prompt="この開発工場の品質ゲートについて説明して">工場の品質ゲートを教えて</button>
+                <button type="button" data-prompt="最近のソフトウェア開発のベストプラクティスを調べて">最近の開発知識を調べる</button>
+              </div>
+            </div>
+          </div>
+          <form class="chat-composer" id="chat-form">
+            <textarea id="chat-input" rows="1" maxlength="8000" placeholder="AI にメッセージを送る…" aria-label="AIへのメッセージ"></textarea>
+            <div class="composer-footer">
+              <label class="search-toggle"><input id="chat-web-search" type="checkbox"><span class="toggle-track"></span><span>Web検索を使う</span></label>
+              <span class="composer-hint">Enter で送信 · Shift + Enter で改行</span>
+              <button class="send-button" type="submit" id="send-button"><span>送信</span><span>↑</span></button>
+            </div>
+          </form>
+          <div class="privacy-note"><span>◉</span> チャット内容はローカル Ollama に送信されます。Web検索を有効にした場合のみ検索語がBingに送信されます。</div>
+        </section>
+
+        <aside class="side-column">
+          <section class="panel evolution-panel">
+            <div class="panel-heading">
+              <div class="heading-title">
+                <span class="heading-icon green">⌁</span>
+                <div><h2>進化のタイムライン</h2><p>自律開発サイクルのリアルタイム状況</p></div>
+              </div>
+              <span class="live-label"><i></i> REALTIME</span>
+            </div>
+            <div class="factory-controls">
+              <button type="button" class="control-button primary" data-action="start">▶ 稼働</button>
+              <button type="button" class="control-button" data-action="pause">Ⅱ 一時停止</button>
+              <button type="button" class="control-button" data-action="resume">↻ 再開</button>
+              <button type="button" class="control-button stop" data-action="stop">■ 停止</button>
+            </div>
+            <div class="current-task" id="current-task">
+              <span class="task-indicator"></span>
+              <div><span class="micro-label">CURRENT ACTIVITY</span><strong>タスクを待機しています</strong></div>
+            </div>
+            <div class="timeline" id="timeline">
+              <div class="timeline-empty">実験の進捗はここに表示されます。</div>
+            </div>
+          </section>
+
+          <section class="panel search-panel">
+            <div class="panel-heading compact-heading">
+              <div class="heading-title">
+                <span class="heading-icon blue">⌕</span>
+                <div><h2>知識を探す</h2><p>検索結果は確認してから工場に追加</p></div>
+              </div>
+              <span class="micro-label">WEB</span>
+            </div>
+            <form class="search-form" id="search-form">
+              <input id="search-input" type="search" maxlength="240" placeholder="例: Python 3.14 の変更点" aria-label="Web検索語">
+              <button type="submit" id="search-button" aria-label="Web検索">⌕</button>
+            </form>
+            <div class="search-results" id="search-results">
+              <div class="knowledge-empty">検索した知識をAIとの会話に使い、確認後に開発工場へ保存できます。</div>
+            </div>
+          </section>
+        </aside>
+      </div>
+      <footer><span>LOCAL AI FACTORY</span><span>ローカル優先 · 人の承認を尊重 · 外部有料APIなし</span></footer>
+    </main>
+  </div>
+  <div class="toast-region" id="toast-region" aria-live="polite"></div>
+</body>
+</html>

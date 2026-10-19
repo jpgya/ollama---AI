@@ -1,0 +1,9 @@
+{
+  "name": "local-ai-factory-workspace",
+  "private": true,
+  "scripts": {
+    "start": "node local-ai-factory/server.js",
+    "service:install": "node local-ai-factory/service.js install",
+    "service:uninstall": "node local-ai-factory/service.js uninstall"
+  }
+}

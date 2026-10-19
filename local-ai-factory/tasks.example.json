@@ -1,0 +1,8 @@
+[
+  {
+    "id": "improve-example-project",
+    "title": "プロジェクトの小さな改善",
+    "description": "対象プロジェクトの既存テストと設計を確認し、後方互換性を保つ小さな改善を実装してテストを追加してください。",
+    "status": "pending"
+  }
+]

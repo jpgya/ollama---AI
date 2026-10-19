@@ -1,0 +1,28 @@
+# Local factory state, experiments, generated artifacts, and logs
+/factory-data/
+/local-ai-factory/factory-data/
+/local-ai-factory/artifacts/
+/local-ai-factory/datasets/
+/local-ai-factory/experiments/
+/local-ai-factory/logs/
+/local-ai-factory/reports/
+
+# Machine-specific configuration and task queue
+/local-ai-factory/config.json
+/local-ai-factory/tasks.json
+
+# Python environments and generated files
+/.venv/
+/local-ai-factory/.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Node.js and generated archives
+node_modules/
+/local-ai-factory/node_modules/
+/local-ai-factory.zip
+
+# macOS metadata
+.DS_Store
